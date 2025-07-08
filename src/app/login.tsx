@@ -14,6 +14,7 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
+      console.error("Login error:", err);
       setError("Erro ao fazer login.");
     }
   };
