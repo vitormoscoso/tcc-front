@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="pt-br">
       <body className={cn(inter.className, "bg-gray-50 min-h-screen")}>
         <Header />
-        <main className="p-6">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );
