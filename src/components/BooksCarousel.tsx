@@ -23,8 +23,8 @@ export function BooksCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-2 bg-[#3A6EA5] text-white cursor-pointer" />
-        <CarouselNext className="right-2 bg-[#3A6EA5] text-white cursor-pointer" />
+        <CarouselPrevious className="left-2 bg-[#3A6EA5] text-white hover:bg-[#2e5884] hover:text-white cursor-pointer" />
+        <CarouselNext className="right-2 bg-[#3A6EA5] text-white hover:bg-[#2e5884] hover:text-white cursor-pointer" />
       </Carousel>
     </div>
   );
