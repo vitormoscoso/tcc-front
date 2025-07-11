@@ -6,3 +6,8 @@ export const getBooksByCategory = async (subject: string) => {
   );
   return res.data;
 };
+
+export const searchBooks = async (query: string) => {
+  const res = await api.get(`/books?q=${encodeURIComponent(query)}`);
+  return res.data;
+};
