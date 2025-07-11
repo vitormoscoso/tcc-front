@@ -30,12 +30,12 @@ export function Header() {
         ) : (
           <div className="flex items-center gap-2">
             <Link href="/login">
-              <Button className="bg-white font-bold rounded-sm text-[#3A6EA5]">
+              <Button className="bg-white font-bold rounded-sm text-[#3A6EA5] hover:bg-[#e0e0e0] cursor-pointer">
                 Cadastrar
               </Button>
             </Link>
             <Link href="/login">
-              <Button className="bg-white font-bold rounded-sm text-[#3A6EA5]">
+              <Button className="bg-white font-bold rounded-sm text-[#3A6EA5] hover:bg-[#e0e0e0] cursor-pointer">
                 Entrar
               </Button>
             </Link>
