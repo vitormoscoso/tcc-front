@@ -5,18 +5,26 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Book } from "@/types/book";
 
-export function BooksCarousel() {
+interface BooksCarouselProps {
+  books: Array<Book>;
+}
+
+export function BooksCarousel({ books }: BooksCarouselProps) {
   return (
     <div className="relative w-full overflow-hidden">
       <Carousel opts={{ align: "start" }} className="w-full">
         <CarouselContent>
-          {Array.from({ length: 10 }).map((_, index) => (
-            <CarouselItem key={index} className="basis-1/4 flex justify-center">
+          {books.map((book) => (
+            <CarouselItem
+              key={book.id}
+              className="basis-1/4 flex justify-center"
+            >
               <div className="inline-block p-1 bg-[#3A6EA5]">
                 <img
-                  src={`https://covers.openlibrary.org/b/id/14935910-L.jpg`}
-                  alt={`Book ${index + 1}`}
+                  src={book.coverUrl}
+                  alt={book.title}
                   className="max-h-[250px] object-contain"
                 />
               </div>
