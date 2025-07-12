@@ -7,11 +7,13 @@ import { Book } from "@/types/book";
 import { Search } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import LoginModal from "./LoginModal";
 import { Input } from "./ui/input";
 
 export function Header() {
   const { user } = useAuth();
 
+  const [openLogin, setOpenLogin] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Book[]>([]);
   const [showResults, setShowResults] = useState(false);
@@ -126,11 +128,13 @@ export function Header() {
                 Cadastrar
               </Button>
             </Link>
-            <Link href="/login">
-              <Button className="bg-white font-bold rounded-sm text-[#3A6EA5] hover:bg-[#e0e0e0] cursor-pointer">
-                Entrar
-              </Button>
-            </Link>
+            <Button
+              className="bg-white font-bold rounded-sm text-[#3A6EA5] hover:bg-[#e0e0e0] cursor-pointer"
+              onClick={() => setOpenLogin(true)}
+            >
+              Entrar
+            </Button>
+            <LoginModal open={openLogin} onOpenChange={setOpenLogin} />
           </div>
         )}
       </nav>
