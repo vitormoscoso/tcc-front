@@ -14,7 +14,15 @@ import { auth } from "@/lib/firebase";
 import { searchBooks } from "@/services/books/bookService";
 import { Book } from "@/types/book";
 import { signOut } from "firebase/auth";
-import { LogOut, Search, UserRound } from "lucide-react";
+import {
+  BookOpen,
+  Clock,
+  Heart,
+  LogOut,
+  Search,
+  Star,
+  UserRound,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import LoginModal from "./LoginModal";
@@ -62,10 +70,10 @@ export function Header() {
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && query.trim()) {
       setLoading(true);
+      setShowResults(true);
       try {
         const res = await searchBooks(query);
         setResults(res);
-        setShowResults(true);
       } catch (err) {
         console.error(err);
         setResults([]);
@@ -142,28 +150,66 @@ export function Header() {
 
       <nav className="flex items-center gap-4">
         {user ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar className="cursor-pointer">
-                <AvatarImage src={user?.photoURL ?? undefined} alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-[#3A6EA5] text-white border-none rounded-sm p-4 mr-3 mt-4">
-              <DropdownMenuItem className="cursor-pointer focus:bg-[#2e5884] focus:text-white">
-                <UserRound color="white" />
-                Meu Perfil
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
-                onClick={handleLogout}
-              >
-                <LogOut color="white" />
-                Sair
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-4">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button
+                  variant={"ghost"}
+                  className="border font-bold rounded-sm text-white hover:bg-tranparent hover:text-white cursor-pointer"
+                >
+                  <BookOpen />
+                  Minha Lista
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-[#3A6EA5] text-white border-none rounded-sm p-4 mt-4">
+                <DropdownMenuItem className="cursor-pointer focus:bg-[#2e5884] focus:text-white">
+                  <Heart color="white" />
+                  Livros favoritos
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
+                  onClick={handleLogout}
+                >
+                  <Star color="white" />
+                  Livros avaliados
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
+                  onClick={handleLogout}
+                >
+                  <Clock color="white" />
+                  Livros para ler depois
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar className="cursor-pointer">
+                  <AvatarImage
+                    src={user?.photoURL ?? undefined}
+                    alt="@shadcn"
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-[#3A6EA5] text-white border-none rounded-sm p-4 mr-3 mt-4">
+                <DropdownMenuItem className="cursor-pointer focus:bg-[#2e5884] focus:text-white">
+                  <UserRound color="white" />
+                  Meu Perfil
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
+                  onClick={handleLogout}
+                >
+                  <LogOut color="white" />
+                  Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         ) : (
           <div className="flex items-center gap-2">
             <Button
