@@ -1,25 +1,38 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
+import { auth } from "@/lib/firebase";
 import { searchBooks } from "@/services/books/bookService";
 import { Book } from "@/types/book";
-import { Search } from "lucide-react";
+import { signOut } from "firebase/auth";
+import { LogOut, Search, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 import { Input } from "./ui/input";
 
 export function Header() {
   const { user } = useAuth();
 
   const [openLogin, setOpenLogin] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Book[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const wrapperRef = useRef<HTMLDivElement>(null);
+  console.log("User:", user);
 
   // Fechar ao clicar fora
   useEffect(() => {
@@ -60,6 +73,15 @@ export function Header() {
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      console.log("Desconectado com sucesso");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
     }
   };
 
@@ -120,14 +142,37 @@ export function Header() {
 
       <nav className="flex items-center gap-4">
         {user ? (
-          <span className="text-sm text-muted-foreground">{user.email}</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar className="cursor-pointer">
+                <AvatarImage src={user?.photoURL ?? undefined} alt="@shadcn" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-[#3A6EA5] text-white border-none rounded-sm p-4 mr-3 mt-4">
+              <DropdownMenuItem className="cursor-pointer focus:bg-[#2e5884] focus:text-white">
+                <UserRound color="white" />
+                Meu Perfil
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
+                onClick={handleLogout}
+              >
+                <LogOut color="white" />
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <div className="flex items-center gap-2">
-            <Link href="/login">
-              <Button className="bg-white font-bold rounded-sm text-[#3A6EA5] hover:bg-[#e0e0e0] cursor-pointer">
-                Cadastrar
-              </Button>
-            </Link>
+            <Button
+              className="bg-white font-bold rounded-sm text-[#3A6EA5] hover:bg-[#e0e0e0] cursor-pointer"
+              onClick={() => setOpenRegister(true)}
+            >
+              Cadastrar
+            </Button>
+            <RegisterModal open={openRegister} onOpenChange={setOpenRegister} />
             <Button
               className="bg-white font-bold rounded-sm text-[#3A6EA5] hover:bg-[#e0e0e0] cursor-pointer"
               onClick={() => setOpenLogin(true)}
