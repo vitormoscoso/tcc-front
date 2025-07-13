@@ -1,17 +1,18 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+// import googleIcon from "@/public/app/google.png";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { signInWithPopup } from "firebase/auth";
 import { Input } from "@/components/ui/input";
 import { auth, googleProvider } from "@/lib/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
+import { Separator } from "./ui/separator";
 
 interface LoginModalProps {
   open: boolean;
@@ -54,7 +55,7 @@ export default function LoginModal({ open, onOpenChange }: LoginModalProps) {
             Acessar Conta
           </DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleLogin} className="space-y-4 mt-4 w-75 mx-auto">
+        <form onSubmit={handleLogin} className="space-y-4 mt-4">
           <Input
             className="bg-white placeholder:font-medium rounded-sm"
             type="email"
@@ -79,24 +80,35 @@ export default function LoginModal({ open, onOpenChange }: LoginModalProps) {
               Continuar
             </Button>
           </div>
+          <p className="text-center text-balck text-sm mt-4">
+            Não possui uma conta?{" "}
+            <span
+              className="cursor-pointer text-white"
+              onClick={() => {
+                onOpenChange(false);
+                // Aqui você pode redirecionar para a página de cadastro, se necessário
+              }}
+            >
+              Cadastre-se
+            </span>
+          </p>
         </form>
-        <div className="flex justify-center">
-          <Button variant="outline" onClick={handleGoogleLogin}>
-            Entrar com Google
-          </Button>
+
+        <div>
+          <Separator />
+          <p className="text-center text-sm text-muted-foreground mt-2 text-white">
+            ou
+          </p>
         </div>
-        <p className="text-center text-balck text-sm mt-4">
-          Não possui uma conta?{" "}
-          <span
-            className="cursor-pointer text-white"
-            onClick={() => {
-              onOpenChange(false);
-              // Aqui você pode redirecionar para a página de cadastro, se necessário
-            }}
-          >
-            Cadastre-se
-          </span>
-        </p>
+
+        <Button
+          variant="outline"
+          className="w-full cursor-pointer"
+          onClick={handleGoogleLogin}
+        >
+          <img src="/google.png" alt="Google Icon" className="w-4 h-4 mr-2" />
+          Entrar com Google
+        </Button>
         {error && <p className="text-red-500 text-sm">{error}</p>}
       </DialogContent>
     </Dialog>
