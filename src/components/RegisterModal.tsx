@@ -1,7 +1,7 @@
 "use client";
 
 import { auth, googleProvider } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -40,6 +40,13 @@ export default function RegisterModal({
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+
+      // Atualiza o nome do usuário
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: name,
+        });
+      }
       onOpenChange(false);
     } catch (err) {
       console.error("Erro no cadastro:", err);
