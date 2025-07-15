@@ -22,6 +22,7 @@ import {
   Search,
   Star,
   UserRound,
+  CircleUser,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -189,9 +190,11 @@ export function Header() {
                 <Avatar className="cursor-pointer">
                   <AvatarImage
                     src={user?.photoURL ?? undefined}
-                    alt="@shadcn"
+                    alt="perfil"
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>
+                    <CircleUser color="white" size="30px"/>
+                  </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#3A6EA5] text-white border-none rounded-sm p-4 mr-3 mt-4">
