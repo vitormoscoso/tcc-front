@@ -24,6 +24,10 @@ export function BooksCarousel({ books }: BooksCarouselProps) {
               <div className="inline-block p-1 bg-[#3A6EA5]">
                 <img
                   src={book.coverUrl}
+                  onClick={() => {
+                    window.location.href = `/livro/${book.id}`;
+                  }}
+                  style={{ cursor: "pointer" }}
                   alt={book.title}
                   className="max-h-[250px] object-contain"
                 />

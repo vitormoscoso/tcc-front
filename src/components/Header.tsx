@@ -95,8 +95,7 @@ export function Header() {
   };
 
   const handleSelect = (book: Book) => {
-    console.log("Selecionado:", book);
-    // Exemplo: navegar, setar no contexto, abrir modal, etc.
+    window.location.href = `/livro/${book.id}`;
   };
 
   return (
