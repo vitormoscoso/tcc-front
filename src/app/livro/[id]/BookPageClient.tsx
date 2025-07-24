@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import {
   addBookToList,
   checkIfBookIsInList,
+  removeBookFromList,
 } from "@/services/lists/listService";
 import {
   AlertCircleIcon,
@@ -75,6 +76,33 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
     }, 3000);
   };
 
+  const removeFromList = async (list_type: string) => {
+    try {
+      await removeBookFromList(user?.uid || "", bookID, list_type);
+
+      setAlertMessage({
+        type: "success",
+        message: "Livro removido da lista com sucesso!",
+      });
+
+      if (list_type === "favoritos") {
+        setIsBookInFavorites(false);
+      } else if (list_type === "para_ler") {
+        setIsBookInToRead(false);
+      }
+    } catch (error) {
+      console.error("Error removing book from list:", error);
+      setAlertMessage({
+        type: "error",
+        message: "Erro ao remover livro da lista.",
+      });
+    }
+    // Esconde o alerta após 3 segundos
+    setTimeout(() => {
+      setAlertMessage(null);
+    }, 3000);
+  };
+
   return (
     <div className="p-10 space-y-6">
       {/* ALERTA */}
@@ -82,7 +110,11 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
           <Alert
             variant={alertMessage.type === "error" ? "destructive" : "default"}
-            className="border-2 border-solid border-green-600 bg-white/10"
+            className={`${
+              alertMessage.type === "error"
+                ? "border-red-600"
+                : "border-green-600"
+            } border-2 border-solid bg-white/10`}
           >
             {alertMessage.type === "success" ? (
               <CheckCircle2Icon color="green" />
@@ -133,7 +165,13 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => addToList("favoritos")}
+                onClick={() => {
+                  if (isBookInFavorites) {
+                    removeFromList("favoritos");
+                  } else {
+                    addToList("favoritos");
+                  }
+                }}
                 className={`${
                   isBookInFavorites ? "bg-white text-[#3A6EA5]" : ""
                 } cursor-pointer`}
@@ -143,7 +181,13 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => addToList("para_ler")}
+                onClick={() => {
+                  if (isBookInToRead) {
+                    removeFromList("para_ler");
+                  } else {
+                    addToList("para_ler");
+                  }
+                }}
                 className={`${
                   isBookInToRead ? "bg-white text-[#3A6EA5]" : ""
                 } cursor-pointer`}
