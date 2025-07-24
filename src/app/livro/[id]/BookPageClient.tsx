@@ -1,13 +1,21 @@
 "use client";
 
 import { BookRatingModal } from "@/components/BookRatingModal";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import {
   addBookToList,
   checkIfBookIsInList,
 } from "@/services/lists/listService";
-import { CircleUser, Clock, Heart, Star } from "lucide-react";
+import {
+  AlertCircleIcon,
+  CheckCircle2Icon,
+  CircleUser,
+  Clock,
+  Heart,
+  Star,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -20,6 +28,10 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
   const { user } = useAuth();
   const [isBookInFavorites, setIsBookInFavorites] = useState(false);
   const [isBookInToRead, setIsBookInToRead] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   useEffect(() => {
     const checkBookInList = async () => {
@@ -39,6 +51,12 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
         isbn: bookID,
         tipo_lista: list_type,
       });
+
+      setAlertMessage({
+        type: "success",
+        message: "Livro adicionado à lista com sucesso!",
+      });
+
       if (list_type === "favoritos") {
         setIsBookInFavorites(true);
       } else if (list_type === "para_ler") {
@@ -46,11 +64,54 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
       }
     } catch (error) {
       console.error("Error adding book to list:", error);
+      setAlertMessage({
+        type: "error",
+        message: "Erro ao adicionar livro à lista.",
+      });
     }
+    // Esconde o alerta após 3 segundos
+    setTimeout(() => {
+      setAlertMessage(null);
+    }, 3000);
   };
 
   return (
     <div className="p-10 space-y-6">
+      {/* ALERTA */}
+      {alertMessage && (
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+          <Alert
+            variant={alertMessage.type === "error" ? "destructive" : "default"}
+            className="border-2 border-solid border-green-600 bg-white/10"
+          >
+            {alertMessage.type === "success" ? (
+              <CheckCircle2Icon color="green" />
+            ) : (
+              <AlertCircleIcon color="red" />
+            )}
+
+            <AlertTitle
+              className={`font-semibold ${
+                alertMessage.type === "error"
+                  ? "text-red-600"
+                  : "text-green-600"
+              }`}
+            >
+              {alertMessage.type === "error" ? "Erro" : "Sucesso"}
+            </AlertTitle>
+            <AlertDescription
+              className={`${
+                alertMessage.type === "error"
+                  ? "text-red-600"
+                  : "text-green-600"
+              }`}
+            >
+              {alertMessage.message}
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       <div className="bg-[#3A6EA5] text-white rounded-lg p-6 flex flex-col md:flex-row gap-6 items-start">
         <img
           src={bookDetails.coverUrl}
