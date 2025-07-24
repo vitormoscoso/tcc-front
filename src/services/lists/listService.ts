@@ -1,7 +1,8 @@
+import { BookReviewBody } from "@/types/book";
 import api from "../api";
 
-export const addBookToList = async (review: any) => {
-  const res = await api.post(`/lists/`, review);
+export const addBookToList = async (body: BookReviewBody) => {
+  const res = await api.post(`/lists/`, body);
   return res.data;
 };
 
