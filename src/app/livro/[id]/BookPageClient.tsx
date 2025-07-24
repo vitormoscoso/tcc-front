@@ -3,8 +3,12 @@
 import { BookRatingModal } from "@/components/BookRatingModal";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { addBookToList } from "@/services/lists/listService";
+import {
+  addBookToList,
+  checkIfBookIsInList,
+} from "@/services/lists/listService";
 import { CircleUser, Clock, Heart, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface Props {
   bookDetails: any;
@@ -14,6 +18,19 @@ interface Props {
 
 export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
   const { user } = useAuth();
+  const [isBookInFavorites, setIsBookInFavorites] = useState(false);
+  const [isBookInToRead, setIsBookInToRead] = useState(false);
+
+  useEffect(() => {
+    const checkBookInList = async () => {
+      if (user) {
+        const isInList = await checkIfBookIsInList(user.uid, bookID);
+        setIsBookInFavorites(isInList.favourites);
+        setIsBookInToRead(isInList.to_read);
+      }
+    };
+    checkBookInList();
+  }, [user, bookID]);
 
   const addToList = async (list_type: string) => {
     try {
@@ -22,6 +39,11 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
         isbn: bookID,
         tipo_lista: list_type,
       });
+      if (list_type === "favoritos") {
+        setIsBookInFavorites(true);
+      } else if (list_type === "para_ler") {
+        setIsBookInToRead(true);
+      }
     } catch (error) {
       console.error("Error adding book to list:", error);
     }
@@ -51,6 +73,9 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
                 variant="ghost"
                 size="icon"
                 onClick={() => addToList("favoritos")}
+                className={`${
+                  isBookInFavorites ? "bg-white text-[#3A6EA5]" : ""
+                } cursor-pointer`}
               >
                 <Heart size={"40px"} />
               </Button>
@@ -58,8 +83,11 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
                 variant="ghost"
                 size="icon"
                 onClick={() => addToList("para_ler")}
+                className={`${
+                  isBookInToRead ? "bg-white text-[#3A6EA5]" : ""
+                } cursor-pointer`}
               >
-                <Clock className="w-5 h-5" />
+                <Clock size={"40px"} />
               </Button>
               <BookRatingModal bookID={bookID} />
             </div>
