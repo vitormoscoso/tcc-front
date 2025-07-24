@@ -21,3 +21,8 @@ export const getBookReviews = async (bookID: string) => {
   const res = await api.get(`/books/${encodeURIComponent(bookID)}/reviews`);
   return res.data
 }
+
+export const createBookReview = async (review: any) => {
+  const res = await api.post(`/books/review`, review);
+  return res.data;
+}
