@@ -36,3 +36,10 @@ export interface BookAuthor {
   id: string;
   name: string;
 }
+
+export interface BookReviewBody {
+  id_livro: string;
+  uid_firebase: string;
+  nota: number;
+  comentario: string;
+}

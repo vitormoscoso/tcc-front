@@ -1,3 +1,4 @@
+import { BookReviewBody } from "@/types/book";
 import api from "../api";
 
 export const getBooksByCategory = async (subject: string) => {
@@ -14,15 +15,15 @@ export const searchBooks = async (query: string) => {
 
 export const getBookDetails = async (bookID: string) => {
   const res = await api.get(`/books/${encodeURIComponent(bookID)}`);
-  return res.data
-}
+  return res.data;
+};
 
 export const getBookReviews = async (bookID: string) => {
   const res = await api.get(`/books/${encodeURIComponent(bookID)}/reviews`);
-  return res.data
-}
+  return res.data;
+};
 
-export const createBookReview = async (review: any) => {
+export const createBookReview = async (review: BookReviewBody) => {
   const res = await api.post(`/books/review`, review);
   return res.data;
-}
+};
