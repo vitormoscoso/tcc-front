@@ -9,11 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAuth } from "@/hooks/useAuth";
+import { createBookReview } from "@/services/books/bookService";
 import { Star } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "./ui/textarea";
-import { createBookReview } from "@/services/books/bookService";
-import { useAuth } from "@/hooks/useAuth";
 
 interface BookRatingModalProps {
   bookID: string;
@@ -77,7 +77,9 @@ export function BookRatingModal({ bookID }: BookRatingModalProps) {
           <Textarea
             placeholder="Deixe um comentário (opcional)"
             value={comment}
-            onChange={(e: any) => setComment(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setComment(e.target.value)
+            }
           />
         </div>
 
