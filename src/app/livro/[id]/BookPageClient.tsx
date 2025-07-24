@@ -9,6 +9,7 @@ import {
   checkIfBookIsInList,
   removeBookFromList,
 } from "@/services/lists/listService";
+import { BookAuthor, BookDetails, BookReview } from "@/types/book";
 import {
   AlertCircleIcon,
   CheckCircle2Icon,
@@ -20,8 +21,8 @@ import {
 import { useEffect, useState } from "react";
 
 interface Props {
-  bookDetails: any;
-  bookReviews: any[];
+  bookDetails: BookDetails;
+  bookReviews: BookReview[];
   bookID: string;
 }
 
@@ -157,7 +158,9 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
               <h1 className="text-2xl font-bold">{bookDetails.title}</h1>
               <h2 className="text-md">
                 {bookDetails.authors?.length > 0
-                  ? bookDetails.authors.map((a: any) => a.name).join(", ")
+                  ? bookDetails.authors
+                      .map((a: BookAuthor) => a.name)
+                      .join(", ")
                   : "-"}
               </h2>
             </div>
@@ -215,7 +218,7 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
             Nenhum comentário ainda.
           </p>
         )}
-        {bookReviews.map((review: any, idx: number) => (
+        {bookReviews.map((review: BookReview, idx: number) => (
           <div key={idx} className="flex gap-4">
             <div className="flex flex-row items-center gap-3 w-1/8">
               {review.autor.photoURL ? (
