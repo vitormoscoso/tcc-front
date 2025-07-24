@@ -6,14 +6,15 @@ interface PageProps {
 }
 
 export default async function BookPage({ params }: PageProps) {
-  const bookDetails = await getBookDetails(params.id);
-  const bookReviews = await getBookReviews(params.id);
+  const { id } = await params;
+  const bookDetails = await getBookDetails(id);
+  const bookReviews = await getBookReviews(id);
 
   return (
     <BookPageClient
       bookDetails={bookDetails}
       bookReviews={bookReviews}
-      bookID={params.id}
+      bookID={id}
     />
   );
 }
