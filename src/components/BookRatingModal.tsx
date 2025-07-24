@@ -16,7 +16,7 @@ import { createBookReview } from "@/services/books/bookService";
 import { useAuth } from "@/hooks/useAuth";
 
 interface BookRatingModalProps {
-    bookID: string;
+  bookID: string;
 }
 
 export function BookRatingModal({ bookID }: BookRatingModalProps) {
@@ -82,10 +82,18 @@ export function BookRatingModal({ bookID }: BookRatingModalProps) {
         </div>
 
         <DialogFooter className="mt-4">
-          <Button variant="ghost" onClick={() => setIsOpen(false)}>
+          <Button
+            variant="ghost"
+            onClick={() => setIsOpen(false)}
+            className="cursor-pointer"
+          >
             Cancelar
           </Button>
-          <Button onClick={handleSubmit} disabled={rating === 0}>
+          <Button
+            onClick={handleSubmit}
+            disabled={rating === 0}
+            className="bg-[#3A6EA5] text-white hover:bg-[#2a5a8b] cursor-pointer"
+          >
             Salvar
           </Button>
         </DialogFooter>
