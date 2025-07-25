@@ -1,20 +1,17 @@
 import { getBookDetails, getBookReviews } from "@/services/books/bookService";
 import { BookPageClient } from "./BookPageClient";
 
-interface PageProps {
-  params: { id: string };
-}
+export const dynamicParams = false;
 
-export default async function BookPage({ params }: PageProps) {
-  const { id } = await params;
-  const bookDetails = await getBookDetails(id);
-  const bookReviews = await getBookReviews(id);
+export default async function BookPage({ params }: { params: { id: string } }) {
+  const bookDetails = await getBookDetails(params.id);
+  const bookReviews = await getBookReviews(params.id);
 
   return (
     <BookPageClient
       bookDetails={bookDetails}
       bookReviews={bookReviews}
-      bookID={id}
+      bookID={params.id}
     />
   );
 }
