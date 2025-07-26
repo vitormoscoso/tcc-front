@@ -88,6 +88,7 @@ export function Header() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      window.location.href = "/";
       console.log("Desconectado com sucesso");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
