@@ -6,8 +6,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "My App",
-  description: "Frontend usando NextJS, Firebase e Tailwind",
+  title: "Clube do Livro",
 };
 
 export default function RootLayout({
