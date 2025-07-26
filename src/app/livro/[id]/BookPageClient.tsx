@@ -21,8 +21,8 @@ import {
 import { useEffect, useState } from "react";
 
 interface Props {
-  bookDetails: BookDetails;
-  bookReviews: BookReview[];
+  bookDetails: BookDetails | null;
+  bookReviews: BookReview[] | null;
   bookID: string;
 }
 
@@ -34,6 +34,9 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
     type: "success" | "error";
     message: string;
   } | null>(null);
+
+  console.log(bookDetails);
+  
 
   useEffect(() => {
     const checkBookInList = async () => {
@@ -147,18 +150,18 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
 
       <div className="bg-[#3A6EA5] text-white rounded-lg p-6 flex flex-col md:flex-row gap-6 items-start">
         <img
-          src={bookDetails.coverUrl}
-          alt={bookDetails.title}
+          src={bookDetails?.coverUrl}
+          alt={bookDetails?.title}
           className="w-[140px] h-auto rounded shadow-md"
         />
 
         <div className="flex-1 space-y-4">
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <h1 className="text-2xl font-bold">{bookDetails.title}</h1>
+              <h1 className="text-2xl font-bold">{bookDetails?.title}</h1>
               <h2 className="text-md">
-                {bookDetails.authors?.length > 0
-                  ? bookDetails.authors
+                {(bookDetails?.authors?.length ?? 0) > 0
+                  ? bookDetails?.authors
                       .map((a: BookAuthor) => a.name)
                       .join(", ")
                   : "-"}
@@ -202,23 +205,23 @@ export function BookPageClient({ bookDetails, bookReviews, bookID }: Props) {
           </div>
 
           <p className="text-sm md:text-base leading-relaxed">
-            {bookDetails.description || "-"}
+            {bookDetails?.description || "-"}
           </p>
 
           <div className="flex gap-6 flex-wrap items-center text-sm font-semibold mt-2">
-            <p>{bookDetails.publishDate || "----"}</p>
-            <p>{bookDetails.numberOfPages || "?"} páginas</p>
+            <p>{bookDetails?.publishDate || "----"}</p>
+            <p>{bookDetails?.numberOfPages || "?"} páginas</p>
           </div>
         </div>
       </div>
 
       <div className="bg-[#3A6EA5] rounded-md p-4 text-white space-y-4">
-        {bookReviews.length === 0 && (
+        {bookReviews?.length === 0 && (
           <p className="text-sm text-white/70 text-center">
             Nenhum comentário ainda.
           </p>
         )}
-        {bookReviews.map((review: BookReview, idx: number) => (
+        {bookReviews?.map((review: BookReview, idx: number) => (
           <div key={idx} className="flex gap-4">
             <div className="flex flex-row items-center gap-3 w-1/8">
               {review.autor.photoURL ? (
