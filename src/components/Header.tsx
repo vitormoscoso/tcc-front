@@ -187,17 +187,19 @@ export function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar className="cursor-pointer">
-                  <AvatarImage
-                    src={user?.photoURL ?? undefined}
-                    alt="perfil"
-                  />
+                  <AvatarImage src={user?.photoURL ?? undefined} alt="perfil" />
                   <AvatarFallback>
-                    <CircleUser color="white" size="30px"/>
+                    <CircleUser color="white" size="30px" />
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#3A6EA5] text-white border-none rounded-sm p-4 mr-3 mt-4">
-                <DropdownMenuItem className="cursor-pointer focus:bg-[#2e5884] focus:text-white">
+                <DropdownMenuItem
+                  className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
+                  onClick={() =>
+                    (window.location.href = `/perfil/${user?.uid}`)
+                  }
+                >
                   <UserRound color="white" />
                   Meu Perfil
                 </DropdownMenuItem>
