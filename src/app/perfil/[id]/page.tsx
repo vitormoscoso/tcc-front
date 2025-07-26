@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";
 import { BookOpen, User, Clock, Heart, Star } from "lucide-react";
-import { useParams } from "next/navigation";
+// import { useParams } from "next/navigation";
 
 export default function ProfilePage() {
 //   const { id } = useParams();
