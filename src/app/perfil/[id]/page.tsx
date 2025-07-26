@@ -7,7 +7,7 @@ import { BookOpen, User, Clock, Heart, Star } from "lucide-react";
 import { useParams } from "next/navigation";
 
 export default function ProfilePage() {
-  const { id } = useParams();
+//   const { id } = useParams();
   const { user } = useAuth();
 
   return (
