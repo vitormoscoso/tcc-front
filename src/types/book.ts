@@ -38,7 +38,8 @@ export interface BookAuthor {
 }
 
 export interface BookReviewBody {
-  tipo_lista: string;
-  isbn: string;
   uid_firebase: string;
+  id_livro: string;
+  nota: number;
+  comentario: string;
 }
