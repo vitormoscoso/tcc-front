@@ -163,14 +163,21 @@ export function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#3A6EA5] text-white border-none rounded-sm p-4 mt-4">
-                <DropdownMenuItem className="cursor-pointer focus:bg-[#2e5884] focus:text-white">
+                <DropdownMenuItem
+                  className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
+                  onClick={() => {
+                    window.location.href = `/perfil/${user.uid}/lista/favoritos`;
+                  }}
+                >
                   <Heart color="white" />
                   Livros favoritos
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
-                  onClick={handleLogout}
+                  onClick={() =>
+                    (window.location.href = `/perfil/${user?.uid}/lista/avaliados`)
+                  }
                 >
                   <Star color="white" />
                   Livros avaliados
@@ -178,7 +185,9 @@ export function Header() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer focus:bg-[#2e5884] focus:text-white"
-                  onClick={handleLogout}
+                  onClick={() =>
+                    (window.location.href = `/perfil/${user?.uid}/lista/para_ler`)
+                  }
                 >
                   <Clock color="white" />
                   Livros para ler depois
