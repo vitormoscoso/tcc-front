@@ -27,3 +27,12 @@ export const checkIfBookIsInList = async (uid_firebase: string, id: string) => {
   );
   return res.data;
 };
+
+export const getList = async (uid_firebase: string, list_type: string) => {
+  const res = await api.get(
+    `/lists/details?uid=${encodeURIComponent(
+      uid_firebase
+    )}&tipo_lista=${encodeURIComponent(list_type)}`
+  );
+  return res.data;
+};
