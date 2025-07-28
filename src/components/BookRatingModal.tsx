@@ -14,6 +14,7 @@ import { createBookReview } from "@/services/books/bookService";
 import { Star } from "lucide-react";
 import { useState } from "react";
 import { Textarea } from "./ui/textarea";
+import { addBookToList } from "@/services/lists/listService";
 
 interface BookRatingModalProps {
   bookID: string;
@@ -45,6 +46,13 @@ export function BookRatingModal({
         nota: rating,
         comentario: comment,
       });
+
+      await addBookToList({
+        uid_firebase: user?.uid || "",
+        isbn: bookID,
+        tipo_lista: "avaliados",
+      });
+
       setAlertMessage({
         type: "success",
         message: "Avaliação salva com sucesso!",
