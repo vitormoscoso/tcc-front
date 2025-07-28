@@ -198,8 +198,8 @@ export function Header() {
               <DropdownMenuTrigger>
                 <Avatar className="cursor-pointer">
                   <AvatarImage src={user?.photoURL ?? undefined} alt="perfil" />
-                  <AvatarFallback>
-                    <CircleUser color="white" size="30px" />
+                  <AvatarFallback className="bg-white text-[#3A6EA5]">
+                    <CircleUser size="30px" />
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
