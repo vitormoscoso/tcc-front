@@ -27,6 +27,7 @@ export interface BookReview {
 }
 
 export interface ReviewAuthor {
+  uid: string;
   displayName: string;
   email: string;
   photoURL?: string;
