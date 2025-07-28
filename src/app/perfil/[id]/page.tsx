@@ -2,22 +2,40 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { useAuth } from "@/hooks/useAuth";
-import { BookOpen, User, Clock, Heart, Star } from "lucide-react";
+import { getUserProfile } from "@/services/users/userService";
+import { User } from "@/types/user";
+import { BookOpen, Clock, Heart, Star, User as UserIcon } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { id } = useParams();
+
+  const [userProfile, setUserProfile] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const profile = await getUserProfile(id as string);
+        setUserProfile(profile);
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [id]);
 
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex items-center justify-center flex-col gap-4 mt-6">
         <Avatar className="w-16 h-16">
-          <AvatarImage src={user?.photoURL ?? undefined} alt="perfil" />
+          <AvatarImage src={userProfile?.photoURL ?? undefined} alt="perfil" />
           <AvatarFallback>
-            <User color="gray" className="w-12 h-12" />
+            <UserIcon color="gray" className="w-12 h-12" />
           </AvatarFallback>
         </Avatar>
-        <h1 className="text-[#3A6EA5] font-bold">{user?.displayName}</h1>
+        <h1 className="text-[#3A6EA5] font-bold">{userProfile?.displayName}</h1>
         <BookOpen className="text-[#3A6EA5]" size="30px" />
       </div>
 
@@ -26,7 +44,7 @@ export default function ProfilePage() {
           <div
             className="flex items-center gap-4 cursor-pointer"
             onClick={() =>
-              (window.location.href = `/perfil/${user?.uid}/lista/favoritos`)
+              (window.location.href = `/perfil/${id as string}/lista/favoritos`)
             }
           >
             <Heart color="#3A6EA5" />
@@ -36,7 +54,7 @@ export default function ProfilePage() {
           <div
             className="flex items-center gap-4 cursor-pointer"
             onClick={() =>
-              (window.location.href = `/perfil/${user?.uid}/lista/avaliados`)
+              (window.location.href = `/perfil/${id as string}/lista/avaliados`)
             }
           >
             <Star color="#3A6EA5" />
@@ -46,7 +64,7 @@ export default function ProfilePage() {
           <div
             className="flex items-center gap-4 cursor-pointer"
             onClick={() =>
-              (window.location.href = `/perfil/${user?.uid}/lista/para_ler`)
+              (window.location.href = `/perfil/${id as string}/lista/para_ler`)
             }
           >
             <Clock color="#3A6EA5" />
