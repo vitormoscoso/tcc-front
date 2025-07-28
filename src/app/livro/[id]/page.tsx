@@ -240,13 +240,21 @@ export default function BookPage() {
                 <img
                   src={review.autor.photoURL}
                   alt={review.autor.displayName}
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  onClick={() =>
+                    (window.location.href = `/perfil/${review.autor.uid}`)
+                  }
                 />
               ) : (
                 <CircleUser size={40} />
               )}
               <div>
-                <p className="text-sm font-semibold">
+                <p
+                  className="text-sm font-semibold cursor-pointer"
+                  onClick={() => {
+                    window.location.href = `/perfil/${review.autor.uid}`;
+                  }}
+                >
                   {review.autor.displayName}
                 </p>
                 <div className="flex gap-0.5 mt-1">
