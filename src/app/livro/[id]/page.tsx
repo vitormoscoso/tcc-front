@@ -212,7 +212,10 @@ export default function BookPage() {
               >
                 <Clock size={"40px"} />
               </Button>
-              <BookRatingModal bookID={id as string} />
+              <BookRatingModal
+                bookID={id as string}
+                setAlertMessage={setAlertMessage}
+              />
             </div>
           </div>
 

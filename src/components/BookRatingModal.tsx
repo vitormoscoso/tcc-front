@@ -17,9 +17,19 @@ import { Textarea } from "./ui/textarea";
 
 interface BookRatingModalProps {
   bookID: string;
+  setAlertMessage: ({
+    type,
+    message,
+  }: {
+    type: "success" | "error";
+    message: string;
+  }) => void;
 }
 
-export function BookRatingModal({ bookID }: BookRatingModalProps) {
+export function BookRatingModal({
+  bookID,
+  setAlertMessage,
+}: BookRatingModalProps) {
   const { user } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +45,13 @@ export function BookRatingModal({ bookID }: BookRatingModalProps) {
         nota: rating,
         comentario: comment,
       });
+      setAlertMessage({
+        type: "success",
+        message: "Avaliação salva com sucesso!",
+      });
     } catch (error) {
       console.error("Erro ao salvar avaliação:", error);
+      setAlertMessage({ type: "error", message: "Erro ao salvar avaliação." });
     } finally {
       setIsOpen(false);
       setRating(0);
