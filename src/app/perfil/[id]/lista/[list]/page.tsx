@@ -27,11 +27,11 @@ export default function ListPage() {
   return (
     <div className="pt-10 px-26">
       <div className="bg-[#3A6EA5] text-white rounded-lg p-6 flex flex-wrap gap-8">
+        {listData?.length === 0 && (
+          <div className="w-full text-center">Nenhum livro encontrado.</div>
+        )}
         {listData?.map((book) => (
-          <div
-            key={book?.id}
-            className="flex items-start gap-4"
-          >
+          <div key={book?.id} className="flex items-start gap-4">
             {/* Capa */}
             <img
               src={book?.coverUrl}
